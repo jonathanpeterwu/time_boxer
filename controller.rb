@@ -4,40 +4,49 @@
 # receives : input model class TimeReminder.new("3pm","remindme")
 # output : send email/text/call reminder, chron reminder on terminal stuff
 # output : confirming message to the user
-
+require_relative 'viewer'
+require_relative 'model'
+require_relative 'twilio-api'
+require 'twilio-ruby'
 
 class TimeBox
 
-  attr_reader :display, :model, :action
+  include TwilioTexter
+  attr_reader :display, :model
+  attr_accessor :action, :testing
 
   def initialize(view_class, model_class) # intiialize both display and model
     @display = view_class
     @model = model_class
-    @action = ARGV[0]
+    @action = "all" #ARGV[0]
+    @testing = false
+    # handle_response(action)
   end
 
-  case action
-  when "eggtimer"
-    egg_timer(model)
-    display.eggtimer
-  when "twilio"
-    twilio_text
-    display.twilio
-  when "all"
-    eggtimer
-    twilio_text
-    display.all_messages
-  else display.invalid
+  def handle_response#(action)
+    case action
+    when "eggtimer"
+      egg_timer(model.time)
+      display.eggtimer(model.time)
+    when "twilio"
+      twilio_text
+      display.twilio(model.phone)
+    when "all"
+      egg_timer(model.time)
+      twilio_text
+      display.all_messages(model.time)
+    else
+      display.invalid
+    end
   end
 
   def twilio_text
-
+    TwilioTexter.send_message(model.time, model.reminder, model.phone) unless @testing
   end
 
   def egg_timer(reminder_in)
-    eggtimer_url = "http://e.ggtimer.com/#{reminder_in.time}%20minutes"
-    `open #{eggtimer_url}`
-    eggtimer_url
+    eggtimer_url = "http://e.ggtimer.com/#{reminder_in}%20minutes"
+    `open #{eggtimer_url}` unless @testing
   end
 
   # def chron_job
@@ -46,7 +55,7 @@ class TimeBox
 end
 
 
-first = TimeBox.new(View, TimeReminder.new)
+# first = TimeBox.new(View, TimeReminder.new)
 
 #methods
 
