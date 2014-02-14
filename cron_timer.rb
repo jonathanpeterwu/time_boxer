@@ -6,17 +6,20 @@ module CronJobs
     cron_string = "#{time.min} #{time.hour} #{time.day} #{time.wday} #{time.month}"
   end
 
-  def cron_timer(minutes_from_now, script)
-    raw_time = Time.now + (minutes_from_now*60)
+  #so i added an additional input in cron_timer to accept a time object
+  #because i cant actually test DateTime.now without literally rewriting the
+  #logic for the tests. if it accepts a time object, i can pass it
+  #DateTime.new which is always the same, and i dont see negative sideeffects
+  #from passing it the DateTime object generated in the model. i think the way
+  #we had it before is more kosher, but does anyone object to keeping this
+  #way? i think it will be fine, since the user is never going to interact
+  #with it -Phil V
+
+  # def cron_timer(minutes_from_now, script)
+  #   raw_time = DateTime.now + (minutes_from_now*60)
+  def cron_timer(minutes_from_now,time_object, script)
+    raw_time = time_object + (minutes_from_now.to_i*60)
     cron_string = cron_converter(raw_time)
-    job = File.open('temp_crontab.txt')
-    job << "#{cron_string} ruby #{script}"
-    #call cron_timer to add cronjob 1 minute later that clears cronjob list
-
-    #finally, this method needs to connect our contab to running cron
-  ensure
-    job.close
-
   end
 
   def cron_stop(minutes_from_now_plus)
@@ -26,4 +29,16 @@ module CronJobs
     end_job.close
   end
 
+  #recommend making this a separate method -Phil V
+  def cron_open
+    job = File.open('temp_crontab.txt')
+    job << "#{cron_string} ruby #{script}"
+    # jo = File.open #still need to write crontab protocol
+  ensure
+    job.close
+  end
+
+  def cron_close_all_jobs
+
+  end
 end

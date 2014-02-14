@@ -19,7 +19,7 @@ ruby timebox.rb eggtimer 30  "finish part 1"
 
 ### Example: Setting up a text confirmation
 
-ruby timebox.rb twilio   30
+ruby timebox.rb twilio   30 +18183379884
 
 ### Example: Setting up a text confirmation
 
@@ -27,7 +27,7 @@ ruby timebox.rb twilio   30  "finish part 2"
 
 ### Example: Setting up both a 30 minute timer and a text confirmation
 
-ruby timebox.rb all  30 
+ruby timebox.rb all  30
 
 ### Example: Setting up both a 30 minute timer and a text confirmation with a message
 
