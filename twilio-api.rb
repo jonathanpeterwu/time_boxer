@@ -25,8 +25,4 @@ module TwilioTexter
     :from => "+17478004717")
     puts call.to
   end
-
 end
-
-
-TwilioTexter.call

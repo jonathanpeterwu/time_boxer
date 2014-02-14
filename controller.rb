@@ -12,18 +12,19 @@ require 'twilio-ruby'
 class TimeBox
 
   include TwilioTexter
-  attr_reader :display, :model
-  attr_accessor :action, :testing
+
+  attr_accessor :action, :testing, :display, :model
 
   def initialize(view_class, model_class) # intiialize both display and model
     @display = view_class
     @model = model_class
-    @action = "all" #ARGV[0]
+    @action = ARGV[0]
     @testing = false
     # handle_response(action)
   end
 
   def handle_response#(action)
+    raise TypeError.new("You must input an integer type for time input") unless /^\d+$/.match(model.time.to_s)
     case action
     when "eggtimer"
       egg_timer(model.time)
@@ -45,11 +46,12 @@ class TimeBox
   end
 
   def egg_timer(reminder_in)
+
     eggtimer_url = "http://e.ggtimer.com/#{reminder_in}%20minutes"
     `open #{eggtimer_url}` unless @testing
   end
 
-  # def chron_job
+  # def cron_job
   # end
 
 end
