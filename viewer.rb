@@ -1,12 +1,18 @@
+require 'Time'
+require_relative 'model'
+require_relative 'viewer'
 
-
-class View
+class TimeBoxView
     def self.eggtimer(time)
       p "Your timebox has started, your alarm will go off in #{time} minutes"
     end
 
     def self.twilio(number)
       p "Your timebox has been set and you will be sent a reminder at your number: #{number}"
+    end
+
+    def self.call(number)
+      p "Your timebox has been set and you will be sent a call reminder at your number : #{number}"
     end
 
     def self.all_messages(time)
