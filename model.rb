@@ -1,4 +1,3 @@
-require 'Time'
 
 class TimeReminder
 
@@ -7,7 +6,7 @@ class TimeReminder
     @time = ARGV[1]
     @reminder = ARGV[2]
     @phone = ARGV[3] #"+18183379884"
-    @cron_time = Time.now.to_time
+    @cron_time = DateTime.now.to_time
   end
 end
 

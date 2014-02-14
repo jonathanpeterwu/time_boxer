@@ -31,4 +31,4 @@ end
  #asdasd TwilioMessage.send_message(@name_of_user, choice[0], choice[1], @phone_of_user)
 
 
- puts TwilioMessage.call_message
+ # puts TwilioMessage.call_message

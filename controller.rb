@@ -1,6 +1,7 @@
 # require_relative 'run_timeboxer'
 require 'twilio-ruby'
-require 'Time'
+require 'date'
+require_relative 'cron_timer'
 require_relative 'twilio-api'
 require_relative 'model'
 require_relative 'viewer'
@@ -17,10 +18,10 @@ class TimeBox
     @action = ARGV[0]
     @testing = false
     # require 'debugger';debugger
-    handle_response(action)
+    # handle_response(action)
   end
 
-  def handle_response(action)
+  def handle_response#(action)
     raise TypeError.new("You must input an integer type for time input") unless /^\d+$/.match(model.time.to_s)
     case action
     when "eggtimer"
@@ -60,4 +61,4 @@ class TimeBox
 end
 
 
-first = TimeBox.new(TimeBoxView, TimeReminder.new)
+# first = TimeBox.new(TimeBoxView, TimeReminder.new)
