@@ -3,7 +3,7 @@ require_relative '../../controller.rb'
 
 describe "egg_timer" do
   it "the second argument should be a digit not a word" do
-    egg = TimeBox.new(View, TimeReminder.new)
+    egg = TimeBox.new(TimeBoxView, TimeReminder.new)
     egg.model.time = "red"
     egg.action = "eggtimer"
     egg.testing = true
@@ -11,7 +11,7 @@ describe "egg_timer" do
   end
 
   it "The custom error message should be present if time is not formatted correctly" do
-    egg = TimeBox.new(View, TimeReminder.new)
+    egg = TimeBox.new(TimeBoxView, TimeReminder.new)
     egg.model.time = "red"
     egg.action = "eggtimer"
     egg.testing = true
@@ -19,7 +19,7 @@ describe "egg_timer" do
   end
 
   it "should open the correct url with numeric string input" do
-    egg = TimeBox.new(View, TimeReminder.new)
+    egg = TimeBox.new(TimeBoxView, TimeReminder.new)
     egg.model.time = "20"
     egg.action = "eggtimer"
     egg.testing = true
@@ -27,7 +27,7 @@ describe "egg_timer" do
   end
 
   it "should open the correct url" do
-    egg = TimeBox.new(View, TimeReminder.new)
+    egg = TimeBox.new(TimeBoxView, TimeReminder.new)
     egg.model.time = 20
     egg.action = "eggtimer"
     egg.testing = true

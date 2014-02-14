@@ -3,7 +3,7 @@ require_relative '../../controller'
 
 describe "all"  do
   it "the second argument should be a digit not a word" do
-    both = TimeBox.new(View, TimeReminder.new)
+    both = TimeBox.new(TimeBoxView, TimeReminder.new)
     both.model.time = "red"
     both.model.phone = "+18183379884"
     both.action = "all"
@@ -12,7 +12,7 @@ describe "all"  do
   end
 
   it "The custom error message should be present if time is not formatted correctly" do
-    both = TimeBox.new(View, TimeReminder.new)
+    both = TimeBox.new(TimeBoxView, TimeReminder.new)
     both.model.time = "red"
     both.model.phone = "+18183379884"
     both.action = "all"
@@ -21,7 +21,7 @@ describe "all"  do
   end
 
   it "should open the correct url with numeric string input" do
-    both = TimeBox.new(View, TimeReminder.new)
+    both = TimeBox.new(TimeBoxView, TimeReminder.new)
     both.model.time = "20"
     both.model.phone = "+18183379884"
     both.action = "all"
@@ -30,7 +30,7 @@ describe "all"  do
   end
 
   it "should display egg timer and send text" do
-    both = TimeBox.new(View, TimeReminder.new)
+    both = TimeBox.new(TimeBoxView, TimeReminder.new)
     both.model.time = 20
     both.model.phone = "+18183379884"
     both.action = "all"

@@ -1,10 +1,10 @@
 require 'rspec'
-require_relative '../../controller'
+require_relative '../../run_timeboxer'
 
 describe "twilio" do
 
   it "the second argument should be a digit not a word" do
-    twilio = TimeBox.new(View, TimeReminder.new)
+    twilio = TimeBox.new(TimeBoxView, TimeReminder.new)
     twilio.model.time = "red"
     twilio.action = "twilio"
     twilio.model.phone = "+18183379884"
@@ -13,7 +13,7 @@ describe "twilio" do
   end
 
   it "The custom error message should be present if time is not formatted correctly" do
-    twilio = TimeBox.new(View, TimeReminder.new)
+    twilio = TimeBox.new(TimeBoxView, TimeReminder.new)
     twilio.model.time = "red"
     twilio.action = "twilio"
     twilio.model.phone = "+18183379884"
@@ -22,7 +22,7 @@ describe "twilio" do
   end
 
   it "should text you that a reminder has been set" do
-    twilio = TimeBox.new(View, TimeReminder.new)
+    twilio = TimeBox.new(TimeBoxView, TimeReminder.new)
     twilio.model.time = "20"
     twilio.action = "twilio"
     twilio.model.phone = "+18183379884"
@@ -31,11 +31,20 @@ describe "twilio" do
   end
 
   it "should text you that a reminder has been set" do
-    twilio = TimeBox.new(View, TimeReminder.new)
+    twilio = TimeBox.new(TimeBoxView, TimeReminder.new)
     twilio.model.time = 20
     twilio.action = "twilio"
     twilio.model.phone = "+18183379884"
     twilio.testing = true
     expect(twilio.handle_response).to eq("Your timebox has been set and you will be sent a reminder at your number: +18183379884")
+  end
+
+  it "should call you with a reminder" do
+    twilio = TimeBox.new(TimeBoxView, TimeReminder.new)
+    twilio.model.time = 20
+    twilio.action = "twilio_call"
+    twilio.model.phone = "+18183379884"
+    twilio.testing = true
+    expect(twilio.handle_response).to eq("Your timebox has been set and you will be sent a call reminder at your number : +18183379884")
   end
 end
