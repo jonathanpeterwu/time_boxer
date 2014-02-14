@@ -9,6 +9,7 @@ require_relative 'viewer'
 class TimeBox
 
   include TwilioTexter
+  include CronJobs
 
   attr_accessor :action, :testing, :display, :model
 
@@ -43,6 +44,7 @@ class TimeBox
   end
 
   def twilio_text
+    CronJobs.cron_timer(model.time, )
     TwilioTexter.send_message(model.time, model.reminder, model.phone) unless @testing
   end
 
