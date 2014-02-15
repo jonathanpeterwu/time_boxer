@@ -7,6 +7,6 @@ describe "When an incorrect command is passed in (with correct time format)" do
       fail.action = "fucked up"
       fail.model.time = 30
       fail.testing = true
-      expect(fail.handle_response).to eq("you done fucked up")
+      expect(fail.handle_response).to eq("I'm sorry Dave, I can't do that")
     end
 end

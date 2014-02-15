@@ -19,6 +19,6 @@ class TimeBoxView
     end
 
     def self.invalid
-      p "you done fucked up"
+      p "I'm sorry Dave, I can't do that"
     end
 end

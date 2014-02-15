@@ -1,3 +1,4 @@
+:X
 # require_relative 'run_timeboxer'
 require 'twilio-ruby'
 require 'date'
@@ -44,12 +45,12 @@ class TimeBox
 
   def twilio_text
     cron_open(model, 'twil_text.rb')
+    # TwilioTexter.send_message(model.time, model.reminder, model.phone) unless @testing
   end
 
-  #pending implementation
-  # def twilio_call
-  #   TwilioTexter.call(model.phone) unless @testing
-  # end
+  def twilio_call
+    TwilioTexter.call(model.phone) unless @testing
+  end
 
   def egg_timer(reminder_in)
     eggtimer_url = "http://e.ggtimer.com/#{reminder_in}%20minutes"

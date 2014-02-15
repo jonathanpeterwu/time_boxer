@@ -1,31 +1,34 @@
+require 'time'
+
 module CronJobs
+
+  module_function
 
   def cron_converter(time) #returns string of now in cronspk
     cron_string = "#{time.min} #{time.hour} #{time.day} #{time.wday} #{time.month}"
   end
 
-  #so i added an additional input in cron_timer to accept a time object
-  #because i cant actually test DateTime.now without literally rewriting the
-  #logic for the tests. if it accepts a time object, i can pass it
-  #DateTime.new which is always the same, and i dont see negative sideeffects
-  #from passing it the DateTime object generated in the model. i think the way
-  #we had it before is more kosher, but does anyone object to keeping this
-  #way? i think it will be fine, since the user is never going to interact
-  #with it -Phil V
-
-  # def cron_timer(minutes_from_now, script)
-  #   raw_time = DateTime.now + (minutes_from_now*60)
-  def cron_timer(minutes_from_now,time_object, script)
-    raw_time = time_object + (minutes_from_now.to_i*60)
+  def cron_timer(reminder_details)
+    raw_time = reminder_details.cron_time + (reminder_details.time.to_i*60)
     cron_string = cron_converter(raw_time)
   end
 
-  #recommend making this a separate method -Phil V
-  def cron_open
-    # jo = File.open #still need to write crontab protocol
+  def cron_open(model, script)
+    time = cron_timer(model)
+    job = File.open('temp_crontab.txt', 'w')
+    job << "#{time} ruby /Users/apprentice/desktop/time_boxer/#{script} #{model.time} #{model.reminder} #{model.phone}"
+    job.close
+    system "crontab temp_crontab.txt"
+    system "rm temp_crontab.txt"
+    system "crontab -l"
   end
 
-  def cron_close_all_jobs
-
+  def cron_close_all_jobs(minutes_from_now_plus)
+    end_job = File.open('temp_crontab.txt', 'w')
+    # end_job << "#{minutes_from_now_plus} crontab -r" #if our goal is to clear the file of all cronjobs, opening and closing in write mode should do it
+  ensure
+    end_job.close
   end
+
 end
+
