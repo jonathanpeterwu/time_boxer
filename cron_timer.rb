@@ -2,21 +2,24 @@ require 'time'
 
 module CronJobs
 
+  module_function
+
   def cron_converter(time) #returns string of now in cronspk
     cron_string = "#{time.min} #{time.hour} #{time.day} #{time.wday} #{time.month}"
   end
 
-  def cron_timer(minutes_from_now)
-    raw_time = DateTime.now.to_time + (minutes_from_now.to_i*60)
+  def cron_timer(reminder_details)
+    raw_time = reminder_details.cron_time + (reminder_details.time.to_i*60)
     cron_string = cron_converter(raw_time)
   end
 
-  def cron_open(script)
-    job = File.open('temp_crontab.txt')
-    job << "#{cron_string} ruby #{script}"
-    # job = File.open #still need to write crontab protocol
+  def cron_open(model, script)
+    time = cron_timer(model)
+    job = File.open('temp_crontab.txt', 'w')
+    job << "#{time} ruby #{script} #{time.time} #{time.reminder} #{time.phone}"
   ensure
     `crontab temp_crontab.txt`
+    `rm temp_crontab.txt`
     job.close
   end
 
