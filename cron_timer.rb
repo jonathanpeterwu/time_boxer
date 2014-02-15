@@ -16,11 +16,11 @@ module CronJobs
   def cron_open(model, script)
     time = cron_timer(model)
     job = File.open('temp_crontab.txt', 'w')
-    job << "#{time} ruby #{script} #{time.time} #{time.reminder} #{time.phone}"
-  ensure
-    `crontab temp_crontab.txt`
-    `rm temp_crontab.txt`
+    job << "#{time} ruby /Users/apprentice/desktop/time_boxer/#{script} #{model.time} #{model.reminder} #{model.phone}"
     job.close
+    system "crontab temp_crontab.txt"
+    system "rm temp_crontab.txt"
+    system "crontab -l"
   end
 
   def cron_close_all_jobs(minutes_from_now_plus)
